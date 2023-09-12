@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -18,6 +19,11 @@ import { Board } from './board.entity';
 @Controller('boards')
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
+
+  @Get()
+  getAllTask() {
+    return this.boardsService.getAllBoards();
+  }
 
   @Post()
   @UsePipes(ValidationPipe)

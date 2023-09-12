@@ -9,16 +9,15 @@ import { Board } from './board.entity';
 @Injectable()
 export class BoardsService {
   constructor(
-    @InjectRepository(BoardRepository)
+    @InjectRepository(Board)
     private boardRepository: BoardRepository,
   ) {}
 
-  // THIS PART IS FOR LOCAL STORAGE OF DATA
-  // private boards: Board[] = [];
+  private boards = [];
 
-  //   getAllBoards(): Board[] {
-  //     return this.boards;
-  //   }
+  getAllBoards() {
+    return this.boards;
+  }
 
   async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
     const { title, description } = createBoardDto;
@@ -28,10 +27,20 @@ export class BoardsService {
       description,
       status: BoardStatus.PUBLIC,
     });
+
     await this.boardRepository.save(board);
     return board;
   }
 
+  async getBoardById(id: number): Promise<Board> {
+    const found = await this.boardRepository.findOne({ where: { id } });
+    if (!found) {
+      throw new NotFoundException(`Can't find board with id ${id}`);
+    }
+    return found;
+  }
+
+  // THIS PART IS FOR LOCAL STORAGE OF DATA
   //   createBoard(createBoardDto: CreateBoardDto) {
   //     const { title, description } = createBoardDto;
 
@@ -44,14 +53,6 @@ export class BoardsService {
 
   //     this.boards.push(board);
   //     return board;
-
-  async getBoardById(id: number): Promise<Board> {
-    const found = await this.boardRepository.findOne({ where: { id } });
-    if (!found) {
-      throw new NotFoundException(`Can't find board with id ${id}`);
-    }
-    return found;
-  }
 
   // getBoardById(id: string): Board {
   //   const found = this.boards.find((board) => board.id === id);
