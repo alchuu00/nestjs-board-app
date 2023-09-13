@@ -40,6 +40,16 @@ export class BoardsService {
     return found;
   }
 
+
+  async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
+    const board = await this.getBoardById(id);
+
+    board.status = status;
+    await this.boardRepository.save(board);
+
+    return board;
+  }
+
   // THIS PART IS FOR LOCAL STORAGE OF DATA
   //   createBoard(createBoardDto: CreateBoardDto) {
   //     const { title, description } = createBoardDto;
