@@ -13,10 +13,8 @@ export class BoardsService {
     private boardRepository: BoardRepository,
   ) {}
 
-  private boards = [];
-
-  getAllBoards() {
-    return this.boards;
+  async getAllBoards(): Promise <Board[]> {
+    return this.boardRepository.find();
   }
 
   async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {

@@ -22,7 +22,7 @@ export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
   @Get()
-  getAllTask() {
+  getAllBoards(): Promise<Board[]> {
     return this.boardsService.getAllBoards();
   }
 
