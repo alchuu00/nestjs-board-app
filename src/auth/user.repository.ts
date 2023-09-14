@@ -6,7 +6,10 @@ import { AuthCredentialsDto } from './auth-credentials.dto';
 export class UserRepository extends Repository<User> {
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = authCredentialsDto;
-    const user = this.create({ username, password });
+    const user = this.create({
+      username,
+      password,
+    });
     await this.save(user);
   }
 }
